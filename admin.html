@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Admin · First Coast Families</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="css/site.css">
+<style>
+.adm{max-width:900px;margin:0 auto;padding-block:24px 60px;display:flex;flex-direction:column;gap:20px}
+.adm header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.box{padding:18px;display:flex;flex-direction:column;gap:12px}
+.box h2{font-size:1.5rem}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row > input{flex:1 1 220px}
+.qitem .meta{margin-top:4px}
+.live{display:flex;flex-direction:column;gap:8px}
+.lrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:center;background:var(--soft);border-radius:14px;padding:10px 12px}
+.lrow b{display:block;overflow-wrap:anywhere}
+.lrow .note{font-size:.8rem}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+#lfilter button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+code{background:var(--soft);padding:2px 6px;border-radius:6px;overflow-wrap:anywhere}
+@media (max-width:600px){.lrow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap adm">
+  <header>
+    <div class="logo">
+      <svg width="32" height="32" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="16" fill="var(--sunlogo)"/><path d="M3.5 22c4-3 7-3 10.5 0s7 3 10.5 0 6.5-2.6 8-1.3A16 16 0 0 1 3.5 22z" fill="var(--sky)"/></svg>
+      Admin
+    </div>
+    <div class="row"><a href="./">View site</a><button class="btn ghost small" type="button" id="signOut" hidden>Sign out</button></div>
+  </header>
+
+  <section class="sticker box" id="signin" hidden>
+    <h2>Sign in</h2>
+    <p class="note">Enter your email and we'll send a one-time sign-in link.</p>
+    <form class="row" id="signinForm" novalidate>
+      <input type="email" id="signinEmail" placeholder="you@email.com" aria-label="Email address" required>
+      <button class="btn" type="submit">Send link</button>
+    </form>
+    <p class="note" id="signinMsg"></p>
+  </section>
+
+  <section class="sticker box" id="notAdmin" hidden>
+    <h2>One more step</h2>
+    <p class="note">You're signed in, but this account isn't an admin yet. In Supabase → SQL Editor, run:</p>
+    <p><code id="adminSql"></code></p>
+    <p class="note">Then reload this page.</p>
+  </section>
+
+  <section class="sticker box" id="setup" hidden>
+    <h2>Not connected yet</h2>
+    <p class="note">Add your Supabase URL and anon key to <code>js/config.js</code>, then reload.</p>
+  </section>
+
+  <div id="panel" hidden style="display:flex;flex-direction:column;gap:20px">
+    <section class="stats">
+      <div class="stat"><b id="stPending">0</b><span class="note">Waiting for review</span></div>
+      <div class="stat"><b id="stLive">0</b><span class="note">Live listings</span></div>
+      <div class="stat"><b id="stUpcoming">0</b><span class="note">Upcoming events</span></div>
+      <div class="stat"><b id="stNews">0</b><span class="note">Newsletter signups</span></div>
+    </section>
+
+    <section class="sticker box" aria-labelledby="qh">
+      <div class="sectionhead"><h2 id="qh">Review queue</h2><button class="btn small" type="button" id="importBtn">Import new finds</button></div>
+      <p class="note" id="importMsg">New finds from the twice-a-month sweep land in the site's sweep file. Import pulls in anything you haven't seen.</p>
+      <div class="qlist" id="qlist"><p class="note">Loading…</p></div>
+    </section>
+
+    <section class="sticker box" aria-labelledby="lh">
+      <div class="sectionhead"><h2 id="lh">Live listings</h2>
+        <div class="tabs" id="lfilter">
+          <button class="btn ghost small" type="button" data-k="all" aria-pressed="true">All</button>
+          <button class="btn ghost small" type="button" data-k="dated" aria-pressed="false">Events</button>
+          <button class="btn ghost small" type="button" data-k="place" aria-pressed="false">Places</button>
+        </div>
+      </div>
+      <input type="text" id="lsearch" placeholder="Search by name" aria-label="Search live listings">
+      <div class="live" id="live"></div>
+    </section>
+
+    <section class="sticker box" aria-labelledby="nh">
+      <h2 id="nh">Newsletter</h2>
+      <div class="row"><button class="btn ghost small" type="button" id="copyEmails">Copy subscriber emails</button><span class="note" id="copyMsg"></span></div>
+      <textarea id="emailsOut" hidden readonly rows="4" aria-label="Subscriber emails"></textarea>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl=u=>/^https?:\/\//i.test(u||"")?u:"";
+const AGE={tot:"0–3",little:"4–7",big:"8–12",teen:"13+"};
+const todayIso=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const sb=FCF.client();
+let PENDING=[], LIVE=[], NEWS=[], lkind="all";
+
+function show(id){["signin","notAdmin","setup","panel"].forEach(k=>$("#"+k).hidden=k!==id)}
+
+async function start(){
+  if(!sb){show("setup");return}
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){show("signin");return}
+  $("#signOut").hidden=false;
+  const {data:isAdmin}=await sb.rpc("is_admin");
+  if(!isAdmin){$("#adminSql").textContent=`insert into public.admins (user_id) values ('${session.user.id}');`;show("notAdmin");return}
+  show("panel");
+  await Promise.all([loadPending(),loadLive(),loadNews()]);
+}
+
+$("#signinForm").addEventListener("submit",async e=>{
+  e.preventDefault();const em=$("#signinEmail").value.trim(),msg=$("#signinMsg");
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){msg.className="err";msg.textContent="Enter a full email address.";return}
+  const {error}=await sb.auth.signInWithOtp({email:em,options:{emailRedirectTo:location.origin+location.pathname}});
+  msg.className=error?"err":"ok";msg.textContent=error?"Couldn't send the link: "+error.message:"Check your email for the sign-in link.";
+});
+$("#signOut").addEventListener("click",async()=>{await sb.auth.signOut();location.reload()});
+
+/* ---------- review queue ---------- */
+async function loadPending(){
+  const {data,error}=await sb.from("submissions").select("*").eq("status","pending").order("created_at");
+  if(error){$("#qlist").innerHTML=`<p class="err">Couldn't load the queue: ${esc(error.message)}</p>`;return}
+  PENDING=data;renderPending();
+}
+function whenText(x){if(!x.start)return x.hours||"";let t=x.start+(x.end&&x.end!==x.start?" → "+x.end:"");if(x.time)t+=" · "+x.time;return t}
+function renderPending(){
+  $("#stPending").textContent=PENDING.length;
+  if(!PENDING.length){$("#qlist").innerHTML=`<p class="note">Nothing waiting. Tap Import new finds after the sweep runs on the 1st and 15th.</p>`;return}
+  $("#qlist").innerHTML=PENDING.map(s=>{const x=s.item||{},url=safeUrl(x.url);const past=x.start&&(x.end||x.start)<todayIso();
+    return `<div class="qitem"><div>
+      <div class="src">${s.source==="sweep"?"Sweep":"Venue submission"} · ${esc(x.kind||"event")} · ${esc(x.county||"")}</div>
+      <h3>${esc(x.name)}</h3>
+      <div class="when">${esc(whenText(x))}${x.venue?" · "+esc(x.venue):""}</div>
+      <p class="note">${esc(x.desc||"")} ${x.price===0?"Free.":typeof x.price==="number"?"$"+x.price+".":""} ${esc(x.ageNote||(x.ages||[]).map(a=>AGE[a]).join(", "))}</p>
+      ${past?`<div class="why">This date has already passed.</div>`:""}
+      ${x.note?`<div class="why">Check: ${esc(x.note)}</div>`:""}
+      ${x.contact?`<p class="note">Contact: ${esc(x.contact)}</p>`:""}
+      ${url?`<a href="${esc(url)}" target="_blank" rel="noopener">Source</a>`:""}
+    </div><div class="qact">
+      <button class="btn small" type="button" data-approve="${s.id}">Approve</button>
+      <button class="btn warn small" type="button" data-reject="${s.id}">Reject</button>
+    </div></div>`}).join("");
+}
+$("#qlist").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-approve],[data-reject]");if(!b)return;
+  const id=b.dataset.approve||b.dataset.reject, approve=!!b.dataset.approve, s=PENDING.find(p=>p.id===id);if(!s)return;
+  b.closest(".qact").querySelectorAll("button").forEach(x=>x.disabled=true);
+  if(approve){
+    const x=s.item||{}, lid=s.sweep_key||x.id||slug(x.name);
+    const {error}=await sb.from("listings").upsert(FCF.toRow({...x,source:s.source},lid));
+    if(error){alertRow(b,"Couldn't publish: "+error.message);return}
+  }
+  const {error}=await sb.from("submissions").update({status:approve?"approved":"rejected"}).eq("id",id);
+  if(error){alertRow(b,"Couldn't update: "+error.message);return}
+  PENDING=PENDING.filter(p=>p.id!==id);renderPending();if(approve)loadLive();
+});
+function alertRow(b,text){const q=b.closest(".qitem");q.querySelectorAll("button").forEach(x=>x.disabled=false);let m=q.querySelector(".err");if(!m){m=document.createElement("p");m.className="err";q.firstElementChild.appendChild(m)}m.textContent=text}
+
+$("#importBtn").addEventListener("click",async()=>{
+  const btn=$("#importBtn"),msg=$("#importMsg");btn.disabled=true;msg.className="note";msg.textContent="Checking the sweep file…";
+  try{
+    const r=await fetch("data/sweep.json?"+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error("not found");
+    const file=await r.json();const items=Array.isArray(file.items)?file.items:[];
+    const keys=items.map(x=>x.id).filter(Boolean);
+    const [{data:seen},{data:live}]=await Promise.all([
+      sb.from("submissions").select("sweep_key").in("sweep_key",keys.length?keys:["-"]),
+      sb.from("listings").select("id").in("id",keys.length?keys:["-"])
+    ]);
+    const skip=new Set([...(seen||[]).map(s=>s.sweep_key),...(live||[]).map(l=>l.id)]);
+    const t=todayIso();
+    const fresh=items.filter(x=>x.id&&x.name&&!skip.has(x.id)&&!(x.start&&(x.end||x.start)<t));
+    if(fresh.length){const {error}=await sb.from("submissions").insert(fresh.map(x=>({source:"sweep",item:x,sweep_key:x.id})));if(error)throw error}
+    msg.className="ok";msg.textContent=fresh.length?`Imported ${fresh.length} new ${fresh.length===1?"find":"finds"}${file.updated?" from the "+file.updated+" sweep":""}.`:"No new finds. Everything in the sweep file is already reviewed or live.";
+    await loadPending();
+  }catch(err){msg.className="err";msg.textContent="Couldn't import: "+(err.message||"check that data/sweep.json exists on the site.")}
+  btn.disabled=false;
+});
+
+/* ---------- live listings ---------- */
+async function loadLive(){
+  const {data,error}=await sb.from("listings").select("*").order("start_date",{nullsFirst:false}).limit(2000);
+  if(error){$("#live").innerHTML=`<p class="err">${esc(error.message)}</p>`;return}
+  LIVE=data;$("#stLive").textContent=LIVE.length;
+  $("#stUpcoming").textContent=LIVE.filter(r=>r.kind!=="place"&&(r.end_date||r.start_date)>=todayIso()).length;
+  renderLive();
+}
+function renderLive(){
+  const q=$("#lsearch").value.trim().toLowerCase();
+  const rows=LIVE.filter(r=>(lkind==="all"||(lkind==="place"?r.kind==="place":r.kind!=="place"))&&(!q||r.name.toLowerCase().includes(q)));
+  $("#live").innerHTML=rows.length?rows.slice(0,200).map(r=>`<div class="lrow"><div><b>${r.sponsored?"★ ":""}${esc(r.name)}</b>
+      <span class="note">${esc(r.kind)} · ${esc(r.start_date?r.start_date+(r.end_date?" → "+r.end_date:""):(r.hours||"any day"))}</span></div>
+      <div class="qact"><button class="btn ghost small" type="button" data-feature="${esc(r.id)}">${r.sponsored?"Remove featured":"Make featured"}</button>
+      <button class="btn warn small" type="button" data-unpublish="${esc(r.id)}">Unpublish</button></div></div>`).join("")
+    :`<p class="note">No listings match.</p>`;
+}
+$("#lsearch").addEventListener("input",renderLive);
+$("#lfilter").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;lkind=b.dataset.k;document.querySelectorAll("#lfilter button").forEach(x=>x.setAttribute("aria-pressed",x===b));renderLive()});
+$("#live").addEventListener("click",async e=>{
+  const f=e.target.closest("[data-feature]");
+  if(f){const r=LIVE.find(x=>x.id===f.dataset.feature);f.disabled=true;const {error}=await sb.from("listings").update({sponsored:!r.sponsored}).eq("id",r.id);if(!error){r.sponsored=!r.sponsored;renderLive()}else f.disabled=false;return}
+  const u=e.target.closest("[data-unpublish]");
+  if(u){if(u.dataset.confirm!=="1"){u.dataset.confirm="1";u.textContent="Tap again to unpublish";return}
+    u.disabled=true;const {error}=await sb.from("listings").delete().eq("id",u.dataset.unpublish);
+    if(!error){LIVE=LIVE.filter(x=>x.id!==u.dataset.unpublish);$("#stLive").textContent=LIVE.length;renderLive()}else u.disabled=false}
+});
+
+/* ---------- newsletter ---------- */
+async function loadNews(){const {data}=await sb.from("subscribers").select("email,ages,created_at").order("created_at");NEWS=data||[];$("#stNews").textContent=NEWS.length}
+$("#copyEmails").addEventListener("click",()=>{
+  const list=NEWS.map(n=>n.email).join(", "),out=$("#emailsOut");out.value=list||"No signups yet.";out.hidden=false;
+  if(navigator.clipboard&&list)navigator.clipboard.writeText(list).then(()=>{$("#copyMsg").textContent=`Copied ${NEWS.length} emails.`}).catch(()=>out.select());else out.select();
+});
+
+if(sb)sb.auth.onAuthStateChange((ev)=>{if(ev==="SIGNED_IN")start()});
+start();
+</script>
+</body>
+</html>

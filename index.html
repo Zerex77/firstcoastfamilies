@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>First Coast Families · Family events & places in Northeast Florida</title>
+<meta name="description" content="Family events, all-ages concerts and kid-friendly places from Jacksonville to St. Augustine, Ponte Vedra, Nocatee, Amelia Island and Orange Park. See the whole month and filter by age, area and price.">
+<link rel="canonical" href="https://firstcoastfamilies.com/">
+<meta property="og:title" content="First Coast Families">
+<meta property="og:description" content="What are we doing this weekend? Family events and places across Northeast Florida.">
+<meta property="og:url" content="https://firstcoastfamilies.com/">
+<meta name="theme-color" content="#CFE6FA">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+
+<header class="topband">
+  <div class="wrap">
+    <div class="top">
+      <div class="logo">
+        <svg width="36" height="36" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="16" fill="var(--sunlogo)"/><path d="M3.5 22c4-3 7-3 10.5 0s7 3 10.5 0 6.5-2.6 8-1.3A16 16 0 0 1 3.5 22z" fill="var(--sky)"/></svg>
+        First Coast Families
+      </div>
+      <nav class="nav"><a href="#browse">Calendar</a><a href="#newsletter">Newsletter</a><a href="#submit">List your event</a><a href="#advertise">Advertise</a></nav>
+    </div>
+    <div class="hero">
+      <div>
+        <h1>What are we doing <span>this weekend?</span></h1>
+        <p>Family events, all-ages concerts and kid-approved places from Jacksonville to St. Augustine. See the whole month, tap a day, and go.</p>
+      </div>
+      <div class="sunbox" aria-hidden="true">
+        <svg viewBox="0 0 260 260">
+          <g class="rays" fill="var(--butter-ink)" opacity=".35">
+            <path d="M130 14 l9 30 h-18z"/><path d="M130 246 l9 -30 h-18z"/><path d="M14 130 l30 9 v-18z"/><path d="M246 130 l-30 9 v-18z"/>
+            <path d="M48 48 l27 16 -11 11z"/><path d="M212 212 l-27 -16 11 -11z"/><path d="M212 48 l-16 27 -11 -11z"/><path d="M48 212 l16 -27 11 11z"/>
+          </g>
+          <circle cx="130" cy="130" r="72" fill="var(--sunlogo)"/>
+          <path d="M58 146 q18 -12 36 0 t36 0 t36 0 t36 0 v8 a72 72 0 0 1 -144 0z" fill="var(--sky)"/>
+          <circle cx="108" cy="114" r="6" fill="var(--ink)"/><circle cx="152" cy="114" r="6" fill="var(--ink)"/>
+          <path d="M114 130 q16 12 32 0" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 600 22" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12 Q 25 2 50 12 T 100 12 T 150 12 T 200 12 T 250 12 T 300 12 T 350 12 T 400 12 T 450 12 T 500 12 T 550 12 T 600 12 V22 H0z" fill="var(--bg)"/></svg>
+</header>
+
+<div class="wrap">
+  <div class="ad-board" role="complementary" aria-label="Advertisement">
+    <div><div class="label">Ad space · 728×90 leaderboard</div><strong>Your business here, in front of local parents every week</strong></div>
+    <a class="btn ghost" href="#advertise">See ad options</a>
+  </div>
+</div>
+
+<section class="filters" id="browse" aria-label="Filters">
+  <div class="wrap fbar">
+    <div class="seg" id="viewSeg">
+      <button type="button" data-v="cal" aria-pressed="true">Calendar</button>
+      <button type="button" data-v="list" aria-pressed="false">Events</button>
+      <button type="button" data-v="places" aria-pressed="false">Places</button>
+    </div>
+    <button type="button" class="fbtn" id="moreBtn" aria-expanded="false" aria-controls="more"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 3h14M4 8h8M6.5 13h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span id="moreLabel">Filters</span></button>
+    <div class="activebar" id="activeBar" aria-live="polite"></div>
+  </div>
+  <div class="wrap fpanel" id="more" hidden>
+    <div class="fgrid">
+      <div class="fgroup" id="kindGroup"><span class="lab">Show</span>
+        <div class="seg" id="kindSeg">
+          <button type="button" data-v="all" aria-pressed="true">All</button>
+          <button type="button" data-v="event" aria-pressed="false">Events</button>
+          <button type="button" data-v="concert" aria-pressed="false">Concerts</button>
+        </div>
+      </div>
+      <div class="fgroup"><span class="lab">Kids' ages</span>
+        <div class="seg" id="ageSeg">
+          <button type="button" data-v="tot" aria-pressed="false">0–3</button>
+          <button type="button" data-v="little" aria-pressed="false">4–7</button>
+          <button type="button" data-v="big" aria-pressed="false">8–12</button>
+          <button type="button" data-v="teen" aria-pressed="false">13+</button>
+        </div>
+      </div>
+      <div class="fgroup wide"><span class="lab">Area</span>
+        <div class="seg" id="areaSeg"></div>
+      </div>
+      <div class="frow">
+        <div class="fgroup" id="whenGroup"><label for="when">When</label>
+          <select id="when">
+            <option value="any">Any date</option>
+            <option value="weekend">This weekend</option>
+            <option value="7">Next 7 days</option>
+            <option value="30">Next 30 days</option>
+          </select>
+        </div>
+        <div class="fgroup"><label for="price">Price per kid</label>
+          <select id="price">
+            <option value="99999">Any price</option>
+            <option value="0">Free only</option>
+            <option value="15">Under $15</option>
+            <option value="30">Under $30</option>
+          </select>
+        </div>
+        <div class="fgroup"><label for="indoor">Setting</label>
+          <select id="indoor">
+            <option value="any">Indoor or outdoor</option>
+            <option value="in">Indoor (rain plan)</option>
+            <option value="out">Outdoor</option>
+          </select>
+        </div>
+        <div class="fgroup"><label for="origin">Distance from</label>
+          <select id="origin"></select>
+        </div>
+        <div class="fgroup" id="distGroup"><label for="dist">Within</label>
+          <div class="range"><input type="range" id="dist" min="5" max="60" step="5" value="30"><output id="distOut" for="dist">30 mi</output></div>
+        </div>
+        <div class="fgroup" id="sortGroup"><label for="sort">Sort by</label>
+          <select id="sort">
+            <option value="date">Soonest first</option>
+            <option value="dist">Closest first</option>
+            <option value="price">Lowest price</option>
+            <option value="name">A–Z</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="fdone"><button type="button" class="btn small" id="doneBtn">Show results</button></div>
+  </div>
+</section>
+
+<main class="wrap">
+  <section id="calView" aria-label="Month calendar">
+    <div class="calhead">
+      <div><h2 id="monthTitle">This month</h2><p class="note" id="monthCount">Loading this month's events…</p></div>
+      <div class="calnav">
+        <button class="btn ghost" type="button" id="prevM" aria-label="Previous month">‹</button>
+        <button class="btn ghost small" type="button" id="todayM">Today</button>
+        <button class="btn ghost" type="button" id="nextM" aria-label="Next month">›</button>
+      </div>
+    </div>
+    <div class="ribbon" id="ribbon" hidden></div>
+    <div class="sticker cal" id="cal" role="grid" aria-labelledby="monthTitle">
+      <div class="dow" role="row"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>
+      <div class="empty" style="padding:40px 16px">Loading the calendar…</div>
+    </div>
+    <div class="calfoot">
+      <div class="legend"><span><i class="dot event"></i> Event</span><span><i class="dot concert"></i> Concert</span><span><i class="dot free"></i> Free</span><span><i class="dot spons"></i> Featured</span></div>
+      <div class="sponsor-slot"><span>This month's calendar presented by</span><a href="#advertise">Your logo here</a></div>
+    </div>
+  </section>
+
+  <section id="listView" hidden aria-label="List of listings">
+    <div class="resbar">
+      <h2 id="count">Loading listings…</h2>
+      <p class="note" id="listNote">New events are added twice a month. Confirm times with the host before you go.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+</main>
+
+
+<section class="band" id="newsletter">
+  <div class="wrap split">
+    <div>
+      <h2>The Thursday Tide Sheet</h2>
+      <p>Every Thursday: the 10 best family things happening from Fernandina to St. Augustine that weekend, free events and all-ages concerts first. One email, no clutter.</p>
+    </div>
+    <form class="stack sub" id="subForm" novalidate>
+      <div class="row">
+        <input type="email" id="email" placeholder="you@email.com" aria-label="Email address" required>
+        <button class="btn" type="submit" style="flex:0 0 auto">Subscribe free</button>
+      </div>
+      <div class="chk" aria-label="Kids' ages for your newsletter">
+        <label><input type="checkbox" id="n_tot"> 0–3</label>
+        <label><input type="checkbox" id="n_little"> 4–7</label>
+        <label><input type="checkbox" id="n_big"> 8–12</label>
+        <label><input type="checkbox" id="n_teen"> 13+</label>
+      </div>
+      <p class="note" id="subMsg">Pick ages to get a tailored edition.</p>
+    </form>
+  </div>
+</section>
+
+<section class="wrap" id="submit" style="padding-block:48px 8px">
+  <div class="split">
+    <div>
+      <h2>List your event free</h2>
+      <p class="note" style="font-size:1rem;max-width:46ch;margin-top:10px">Venues, libraries, churches, HOAs, bands and organizers can add family events and all-ages shows. Every submission is reviewed before it goes live, usually within a day. Want it pinned to the top? Add a featured listing below.</p>
+    </div>
+    <form class="stack sticker" id="evForm" novalidate style="padding:18px">
+      <div class="row">
+        <label class="f">Event name<input type="text" id="ev_name" required></label>
+        <label class="f">Type<select id="ev_kind"><option value="event">Family event</option><option value="concert">All-ages concert</option></select></label>
+      </div>
+      <div class="row">
+        <label class="f">Date<input type="date" id="ev_date" required></label>
+        <label class="f">End date (optional)<input type="date" id="ev_end"></label>
+        <label class="f">Start time<input type="text" id="ev_time" placeholder="10:00 am"></label>
+      </div>
+      <div class="row">
+        <label class="f">Venue and address<input type="text" id="ev_venue" required></label>
+        <label class="f">Nearest community<select id="ev_town"></select></label>
+      </div>
+      <div class="row">
+        <label class="f">Price per kid ($, 0 if free)<input type="number" id="ev_price" min="0" step="1" inputmode="numeric"></label>
+        <label class="f">Setting<select id="ev_io"><option value="out">Outdoor</option><option value="in">Indoor</option></select></label>
+      </div>
+      <div class="chk" aria-label="Ages this event suits">
+        <label><input type="checkbox" id="e_tot"> 0–3</label>
+        <label><input type="checkbox" id="e_little"> 4–7</label>
+        <label><input type="checkbox" id="e_big"> 8–12</label>
+        <label><input type="checkbox" id="e_teen"> 13+</label>
+      </div>
+      <label class="f">Short description<textarea id="ev_desc" rows="3" maxlength="300"></textarea></label>
+      <div class="row">
+        <label class="f">Tickets or info link<input type="url" id="ev_url" placeholder="https://"></label>
+        <label class="f">Your email (not shown)<input type="email" id="ev_contact"></label>
+      </div>
+      <div><button class="btn" type="submit">Submit for review</button></div>
+      <p class="note" id="evMsg"></p>
+    </form>
+  </div>
+</section>
+
+<section class="wrap" id="advertise" style="padding-block:48px 8px">
+  <div class="sectionhead">
+    <h2 class="disp">Reach First Coast families</h2>
+    <span class="note">Starter rate card. Adjust as traffic grows.</span>
+  </div>
+  <div class="plans">
+    <div class="plan sticker">
+      <span class="label" style="color:var(--muted)">For venues & events</span>
+      <h3>Featured listing</h3>
+      <div class="amt">$49<small> / month</small></div>
+      <ul><li>Gold star on the calendar day</li><li>Pinned first in matching searches</li><li>Link to tickets or booking</li></ul>
+    </div>
+    <div class="plan sticker pick">
+      <span class="label" style="color:var(--muted)">Most visible</span>
+      <h3>Calendar month sponsor</h3>
+      <div class="amt">$199<small> / month</small></div>
+      <ul><li>"Presented by" logo under the calendar</li><li>Leaderboard banner on every page</li><li>Includes a featured listing</li></ul>
+    </div>
+    <div class="plan sticker">
+      <span class="label" style="color:var(--muted)">Inbox</span>
+      <h3>Newsletter sponsor</h3>
+      <div class="amt">$99<small> / issue</small></div>
+      <ul><li>Top slot in the Thursday Tide Sheet</li><li>Logo, 40 words and a link</li><li>One sponsor per issue</li></ul>
+    </div>
+    <div class="plan sticker">
+      <span class="label" style="color:var(--muted)">For parents</span>
+      <h3>Family Pass</h3>
+      <div class="amt">$4<small> / month</small></div>
+      <ul><li>Ad-free browsing</li><li>Members-only local discounts</li><li>Early alerts for sell-out events</li></ul>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">First Coast Families · Jacksonville, Ponte Vedra, Nocatee, World Golf Village, St. Augustine, St. Augustine Beach, Amelia Island, Orange Park and everywhere between.</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script>
+const AREAS={
+  jax:{n:"Jacksonville",c:[30.33,-81.66]}, beaches:{n:"Jax Beaches & Fort George",c:[30.33,-81.41]},
+  pv:{n:"Ponte Vedra & Nocatee",c:[30.15,-81.39]}, wgv:{n:"World Golf Village & St. Johns",c:[30.02,-81.55]},
+  sa:{n:"St. Augustine & beaches",c:[29.88,-81.30]}, amelia:{n:"Amelia Island & Nassau",c:[30.65,-81.50]},
+  clay:{n:"Orange Park & Clay",c:[30.12,-81.74]}
+};
+const TOWNS={
+  pv:{n:"Ponte Vedra",c:[30.2397,-81.3856],co:"St. Johns",a:"pv"}, noc:{n:"Nocatee",c:[30.1080,-81.4180],co:"St. Johns",a:"pv"},
+  wgv:{n:"World Golf Village",c:[29.9790,-81.4700],co:"St. Johns",a:"wgv"}, sa:{n:"St. Augustine",c:[29.8947,-81.3145],co:"St. Johns",a:"sa"},
+  sab:{n:"St. Augustine Beach",c:[29.8505,-81.2648],co:"St. Johns",a:"sa"}, dt:{n:"Downtown Jacksonville",c:[30.3322,-81.6557],co:"Duval",a:"jax"},
+  jb:{n:"Jacksonville Beach",c:[30.2947,-81.3931],co:"Duval",a:"beaches"}, mand:{n:"Mandarin",c:[30.1588,-81.6612],co:"Duval",a:"jax"},
+  arl:{n:"Arlington",c:[30.3436,-81.5900],co:"Duval",a:"jax"}, ws:{n:"Westside Jacksonville",c:[30.2860,-81.7800],co:"Duval",a:"jax"},
+  ns:{n:"Northside / Airport",c:[30.4700,-81.6500],co:"Duval",a:"jax"}, fb:{n:"Fernandina Beach",c:[30.6697,-81.4626],co:"Nassau",a:"amelia"},
+  yulee:{n:"Yulee",c:[30.6319,-81.6065],co:"Nassau",a:"amelia"}, op:{n:"Orange Park",c:[30.1661,-81.7065],co:"Clay",a:"clay"},
+  fi:{n:"Fleming Island",c:[30.0933,-81.7187],co:"Clay",a:"clay"}, mb:{n:"Middleburg",c:[30.0688,-81.8604],co:"Clay",a:"clay"}
+};
+const ORIGINS=["any","pv","noc","wgv","sa","sab","jb","dt","mand","arl","fb","op","fi"];
+function areaOf(x){
+  if(x.area&&AREAS[x.area])return x.area;
+  if(typeof x.lat!=="number")return "jax";
+  let best="jax",bd=1e9;for(const [k,a] of Object.entries(AREAS)){const d=(a.c[0]-x.lat)**2+(a.c[1]-x.lng)**2;if(d<bd){bd=d;best=k}}return best;
+}
+const AGE_LABEL={tot:"0–3",little:"4–7",big:"8–12",teen:"13+"};
+const KIND_LABEL={event:"Event",concert:"Concert",place:"Place"};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl=u=>/^https?:\/\//i.test(u||"")?u:"";
+
+const DEFAULTS={view:"cal",kind:"all",ages:[],areas:[],when:"any",price:99999,origin:"any",dist:30,sort:"date",io:"any"};
+const fresh=()=>({...DEFAULTS,ages:new Set(),areas:new Set()});
+const state=fresh();
+let LISTINGS=[], loaded=false;
+const isEditor=false;
+const openDays=new Set();
+const saved=new Set();
+try{(JSON.parse(localStorage.getItem("fcf-saved")||"[]")).forEach(n=>saved.add(n))}catch(e){}
+try{const f=JSON.parse(localStorage.getItem("fcf-filters-v2")||"null");if(f){Object.assign(state,f,{ages:new Set(f.ages||[]),areas:new Set((f.areas||[]).filter(a=>AREAS[a]))})}}catch(e){}
+if(state.origin!=="any"&&!TOWNS[state.origin])state.origin="any";
+if(!["cal","list","places"].includes(state.view))state.view="cal";
+if(!["all","event","concert"].includes(state.kind))state.kind="all";
+const nearName=()=>state.origin==="any"?null:TOWNS[state.origin].n;
+const scopeText=()=>state.areas.size?[...state.areas].map(a=>AREAS[a].n).join(", "):"all of Northeast Florida";
+
+$("#origin").innerHTML=ORIGINS.map(k=>`<option value="${k}">${k==="any"?"Anywhere (no limit)":TOWNS[k].n}</option>`).join("");
+$("#areaSeg").innerHTML=`<button type="button" data-v="all">All areas</button>`+Object.entries(AREAS).map(([k,a])=>`<button type="button" data-v="${k}">${a.n}</button>`).join("");
+$("#ev_town").innerHTML=Object.entries(TOWNS).map(([k,t])=>`<option value="${k}">${t.n}</option>`).join("");
+
+/* ---------- dates ---------- */
+const pad=n=>String(n).padStart(2,"0");
+const iso=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const parse=s=>{if(!s)return null;const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const today=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const fmt=d=>d.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric"});
+const fmtLong=d=>d.toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"});
+const fmtShort=d=>d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+let calY=today().getFullYear(), calM=today().getMonth();
+function whenText(x){
+  const s=parse(x.start);if(!s)return x.when||"";
+  const e=parse(x.end);
+  let t=(e&&iso(e)!==iso(s))?`${fmtShort(s)} – ${fmtShort(e)}`:fmt(s);
+  if(x.time)t+=" · "+x.time;
+  return t;
+}
+function windowFor(w){
+  const t=today();
+  if(w==="any")return null;
+  if(w==="weekend"){const dow=t.getDay();const fri=dow===0?addDays(t,-2):addDays(t,(5-dow+7)%7);const start=dow===0||dow===6?t:fri;return [start,addDays(fri,2)]}
+  return [t,addDays(t,+w)];
+}
+function miles(a,b){const R=3958.8,r=x=>x*Math.PI/180;const dLa=r(b[0]-a[0]),dLo=r(b[1]-a[1]);const h=Math.sin(dLa/2)**2+Math.cos(r(a[0]))*Math.cos(r(b[0]))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h))}
+const priceText=x=>x.price===0?"Free":(typeof x.price==="number"?"$"+x.price:(x.priceNote||"See site"));
+const spanDays=x=>{const s=parse(x.start),e=parse(x.end)||s;return Math.round((e-s)/864e5)+1};
+
+/* ---------- filtering ---------- */
+function baseFilter(x){
+  if(state.areas.size&&!state.areas.has(areaOf(x)))return false;
+  if(state.ages.size&&!(x.ages||[]).some(a=>state.ages.has(a)))return false;
+  if(state.price<99999){if(typeof x.price!=="number"||x.price>state.price)return false}
+  if(state.io!=="any"&&x.io!==state.io)return false;
+  return true;
+}
+function withDistance(rows){
+  if(state.origin==="any")return rows.map(x=>({...x,mi:null}));
+  const o=TOWNS[state.origin].c;
+  return rows.map(x=>({...x,mi:(typeof x.lat==="number"&&typeof x.lng==="number")?miles(o,[x.lat,x.lng]):null}))
+    .filter(x=>x.mi===null||x.mi<=state.dist);
+}
+const notPast=x=>{const s=parse(x.start),e=parse(x.end)||s;return s&&e>=today()};
+
+/* ---------- cards ---------- */
+function ageText(x){
+  if(x.ageNote)return x.ageNote;
+  const a=x.ages||[];if(!a.length||a.length===4)return "All ages";
+  const order=["tot","little","big","teen"], lo={tot:0,little:4,big:8,teen:13}, hi={tot:3,little:7,big:12,teen:null};
+  const s=order.filter(k=>a.includes(k));const top=hi[s[s.length-1]];
+  return "Ages "+lo[s[0]]+(top===null?"+":"–"+top);
+}
+function evening(x){const m=/(\d{1,2})(?::\d\d)?\s*pm/i.exec(x.time||"");return m&&+m[1]>=6&&+m[1]<12}
+const PICON={
+  fort:'M4 22V9l3 2V8l3 2V7l3 2 3-2v3l3-2v3l3-2v13zM11 22v-5h4v5',
+  beach:'M3 20c3-2 5-2 7 0s4 2 6 0 4-2 7 0M13 16V5M13 5c-4 0-7 2-8 5h16c-1-3-4-5-8-5z',
+  leaf:'M5 21C5 11 11 5 21 5c0 10-6 16-16 16zM5 21l9-9',
+  animal:'M6 14c0-4 3-7 7-7s7 3 7 7-3 6-7 6-7-2-7-6zM9 9L7 5M17 9l2-4M11 14h.01M15 14h.01',
+  book:'M5 4h7a3 3 0 0 1 3 3v15a2 2 0 0 0-2-2H5zM21 4h-4a2 2 0 0 0-2 2'
+};
+function placeType(x){
+  const t=((x.tags||[]).join(" ")+" "+x.name+" "+(x.desc||"")).toLowerCase();
+  if(/zoo|alligator|animal|gator/.test(t))return "animal";
+  if(/fort|castillo|history|plantation|lighthouse|museum/.test(t))return "fort";
+  if(/library|storytime/.test(t))return "book";
+  if(/beach|splash|pier|ocean/.test(t))return "beach";
+  return "leaf";
+}
+function cardHTML(x,opts){
+  opts=opts||{};
+  const isSaved=saved.has(x.id), url=safeUrl(x.url), place=x.kind==="place";
+  const facts=[x.priceDetail?["Cost",x.priceDetail]:null,x.hours?["Hours",x.hours]:null,x.tips?["Tip",x.tips]:null].filter(Boolean);
+  const extraTags=[...(x.tags||[])];if(!place&&evening(x)&&!extraTags.includes("Evening"))extraTags.unshift("Evening");
+  const areaName=AREAS[areaOf(x)].n;
+  const body=`
+    ${place?(x.sponsored?'<div class="ctop"><span class="spons">★ Featured</span></div>':""):`<div class="ctop"><span class="kind ${esc(x.kind)}">${KIND_LABEL[x.kind]||"Event"}</span><span class="carea">${esc(areaName)}</span>${x.sponsored?'<span class="spons">★ Featured</span>':""}</div>`}
+    <h3>${esc(x.name)}</h3>
+    ${!place?`<div class="when">${esc(whenText(x))}</div>`:(x.hours?`<div class="venue">${esc(x.hours)}</div>`:"")}
+    ${x.venue&&!place?`<div class="venue">${esc(x.venue)}</div>`:""}
+    <div class="agenote">${esc(ageText(x))}</div>
+    <p>${esc(x.desc)}</p>
+    <div class="meta">${x.io==="in"?'<span class="tag">Indoors</span>':""}${extraTags.map(tg=>`<span class="tag">${esc(tg)}</span>`).join("")}</div>
+    ${facts.length?`<details class="kbyg"><summary>Know before you go</summary><dl>${facts.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join("")}</dl></details>`:""}
+    <div class="cfoot"><span class="price${x.price===0?" free":""}">${esc(priceText(x))}</span><span class="dist">${x.mi==null?"":x.mi.toFixed(1)+" mi"}</span>
+      <span class="linky">${url?`<a href="${esc(url)}" target="_blank" rel="noopener">Details</a>`:""}<button class="save" type="button" data-id="${esc(x.id)}" aria-pressed="${isSaved}">${isSaved?"★ Saved":"☆ Save"}</button></span></div>
+    ${isEditor?`<div class="ownerbar"><button class="btn ghost small" type="button" data-feature="${esc(x.id)}">${x.sponsored?"Remove featured":"Make featured"}</button><button class="btn warn small" type="button" data-unpublish="${esc(x.id)}">Unpublish</button></div>`:""}`;
+  if(place){
+    const pt=placeType(x);
+    return `<article class="card sticker place${x.sponsored?" sponsored":""}">
+      <div class="pband ${pt}"><span class="picon"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="${PICON[pt]}" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="parea">${esc(areaName)}</span></div>
+      <div class="cbody">${body}</div></article>`;
+  }
+  if(opts.tile){
+    const t=today();let d=parse(x.start);if(d<t)d=t;
+    const ongoing=parse(x.start)<t;
+    return `<article class="card sticker has-tile${x.sponsored?" sponsored":""}">
+      <div class="datetile ${esc(x.kind)}" aria-hidden="true"><span class="m">${ongoing?"Now":d.toLocaleDateString("en-US",{month:"short"})}</span><span class="d">${d.getDate()}</span><span class="w">${d.toLocaleDateString("en-US",{weekday:"short"})}</span></div>
+      <div class="cbody">${body}</div></article>`;
+  }
+  return `<article class="card sticker${x.sponsored?" sponsored":""}">${body}</article>`;
+}
+function adCard(){return `<div class="card sticker ad" role="complementary" aria-label="Advertisement"><span class="label">Ad space · in-grid card</span><h3>Run a camp, class or birthday venue?</h3><p>Show up right here when parents filter for your kids' ages and area.</p><a class="btn ghost" href="#advertise" style="align-self:flex-start">Advertise</a></div>`}
+
+/* ---------- list view ---------- */
+function renderList(){
+  const t=today(), win=windowFor(state.when), placesMode=state.view==="places";
+  let rows=LISTINGS.filter(x=>{
+    if(placesMode)return x.kind==="place"&&baseFilter(x);
+    if(x.kind==="place")return false;
+    if(!notPast(x))return false;const s=parse(x.start),e=parse(x.end)||s;if(win&&(s>win[1]||e<win[0]))return false;
+    if(state.kind!=="all"&&x.kind!==state.kind)return false;
+    return baseFilter(x);
+  });
+  rows=withDistance(rows);
+  const big=1e12;
+  const dateKey=x=>x.kind==="place"?big:Math.max(parse(x.start).getTime(),t.getTime());
+  const cmpDate=(a,b)=>dateKey(a)-dateKey(b)||String(a.name).localeCompare(b.name);
+  const cmp={date:(a,b)=>dateKey(a)-dateKey(b)||(a.mi??999)-(b.mi??999),dist:(a,b)=>(a.mi??999)-(b.mi??999),
+    price:(a,b)=>(typeof a.price==="number"?a.price:big)-(typeof b.price==="number"?b.price:big)||(a.mi??999)-(b.mi??999),
+    name:(a,b)=>String(a.name).localeCompare(b.name)}[state.sort];
+  const byName=(a,b)=>String(a.name).localeCompare(b.name);
+  let sorter=(state.sort==="dist"&&state.origin==="any")?cmpDate:cmp;
+  if(placesMode&&state.sort==="date")sorter=state.origin==="any"?byName:((a,b)=>(a.mi??999)-(b.mi??999)||byName(a,b));
+  else if(placesMode&&state.sort==="dist"&&state.origin==="any")sorter=byName;
+  rows.sort((a,b)=>(b.sponsored?1:0)-(a.sponsored?1:0)||sorter(a,b));
+  $("#listNote").textContent=placesMode?"Good any day. Check hours before you go; some places close one or two days a week.":"New events are added twice a month. Confirm times with the host before you go.";
+  const noun=placesMode?(rows.length===1?" place":" places"):(rows.length===1?" upcoming event":" upcoming events");
+  $("#count").textContent=rows.length+noun+(nearName()?" within "+state.dist+" mi of "+nearName():" in "+scopeText());
+  if(!rows.length){$("#grid").innerHTML=`<div class="empty"><h3>Nothing matches yet</h3><p>${placesMode?"Try another area, a longer drive or a higher price limit.":"Try a wider date range, another area or a higher price limit."}</p></div>`;return}
+  let html="";rows.forEach((x,i)=>{if(i===5)html+=adCard();html+=cardHTML(x,{tile:!placesMode})});
+  if(rows.length<=5)html+=adCard();
+  $("#grid").innerHTML=html;
+}
+
+/* ---------- calendar view ---------- */
+function closedOn(x,day){const h=(x.hours||"").toLowerCase();const dn=["sun","mon","tue","wed","thu","fri","sat"][day.getDay()];
+  return new RegExp("closed[^;.)]*\\b"+dn).test(h)||(h.includes("closed sundays")&&dn==="sun");}
+function anyDay(day){
+  const ps=withDistance(LISTINGS.filter(x=>x.kind==="place"&&baseFilter(x)&&!closedOn(x,day)));
+  ps.sort((a,b)=>(b.sponsored?1:0)-(a.sponsored?1:0)||(a.mi??999)-(b.mi??999)||String(a.name).localeCompare(b.name));
+  return ps.slice(0,3);
+}
+function dated(){
+  return withDistance(LISTINGS.filter(x=>x.kind!=="place"&&x.start&&(state.kind==="all"||x.kind===state.kind)&&baseFilter(x)));
+}
+function renderCal(){
+  const first=new Date(calY,calM,1), last=new Date(calY,calM+1,0), t=today();
+  $("#monthTitle").textContent=first.toLocaleDateString("en-US",{month:"long",year:"numeric"});
+  $("#prevM").disabled=(calY<t.getFullYear()||(calY===t.getFullYear()&&calM<=t.getMonth()));
+  const rows=dated();
+  const LONG=4;
+  const long=rows.filter(x=>spanDays(x)>=LONG&&parse(x.start)<=last&&(parse(x.end)||parse(x.start))>=first&&notPast(x));
+  const byDay={};
+  rows.filter(x=>spanDays(x)<LONG).forEach(x=>{
+    let d=parse(x.start);const e=parse(x.end)||d;
+    while(d<=e){const k=iso(d);(byDay[k]=byDay[k]||[]).push(x);d=addDays(d,1)}
+  });
+  Object.values(byDay).forEach(a=>a.sort((p,q)=>(q.sponsored?1:0)-(p.sponsored?1:0)||(p.mi??999)-(q.mi??999)));
+  // ribbon
+  const rib=$("#ribbon");
+  if(long.length){rib.hidden=false;rib.innerHTML=`<span class="lab">Running all month:</span>`+long.map(x=>`<button type="button" data-jump="${esc(x.start<iso(first)?iso(first):x.start)}" title="${esc(x.name)}">${x.sponsored?"★ ":""}${esc(x.name)} · ${esc(fmtShort(parse(x.start)))}–${esc(fmtShort(parse(x.end)))}</button>`).join("")}
+  else{rib.hidden=true;rib.innerHTML=""}
+  // count
+  let monthItems=new Set();Object.entries(byDay).forEach(([k,a])=>{const d=parse(k);if(d.getMonth()===calM&&d>=t)a.forEach(x=>monthItems.add(x.id))});
+  $("#monthCount").textContent=loaded?`${monthItems.size} upcoming ${monthItems.size===1?"event":"events"}${long.length?` + ${long.length} running all month`:""} in ${nearName()?state.dist+" mi of "+nearName():scopeText()}. Tap a day to open it.`:"Loading this month's events…";
+  // grid
+  let html=`<div class="dow" role="row"><div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div></div>`;
+  let d=addDays(first,-first.getDay());
+  while(d<=last||d.getDay()!==0){
+    const weekDays=[];let cells="";
+    for(let i=0;i<7;i++){
+      const k=iso(d), inM=d.getMonth()===calM, items=byDay[k]||[], isPast=d<t, open=openDays.has(k);
+      const longToday=long.filter(x=>parse(x.start)<=d&&(parse(x.end)||parse(x.start))>=d);
+      const total=items.length+longToday.length;
+      const cls=["day",inM?"":"out",(d.getDay()%6===0)?"wkend":"",iso(d)===iso(t)?"today":"",isPast&&inM?"past":"",(inM&&!items.length)?"empty-day":""].filter(Boolean).join(" ");
+      if(inM)weekDays.push(k);
+      const label=`${fmtLong(d)}: ${items.length?items.length+" event"+(items.length>1?"s":""):"nothing dated"}${longToday.length?", plus "+longToday.length+" running":""}`;
+      const peeks=items.slice(0,2).map(x=>`<span class="peek ${esc(x.kind)}">${x.sponsored?"★ ":""}${esc(x.name)}</span>`).join("")+(items.length>2?`<span class="peek more">+${items.length-2} more</span>`:"");
+      const dots=items.slice(0,4).map(x=>`<i class="dot ${x.sponsored?"spons":x.price===0?"free":esc(x.kind)}"></i>`).join("");
+      cells+=inM?`<button type="button" class="${cls}" role="gridcell" data-day="${k}" aria-expanded="${open}" aria-label="${esc(label)}">
+          <span class="num"><b>${d.getDate()}</b>${items.length?`<span class="cnt">${items.length}</span>`:""}</span>${peeks}<span class="dots">${dots}</span></button>`
+        :`<div class="${cls}" role="gridcell" aria-hidden="true"><span class="num"><b>${d.getDate()}</b></span></div>`;
+      d=addDays(d,1);
+    }
+    html+=`<div class="week" role="row">${cells}</div>`;
+    const openHere=weekDays.filter(k=>openDays.has(k));
+    if(openHere.length){
+      html+=`<div class="panels">`+openHere.map(k=>{
+        const day=parse(k), items=byDay[k]||[], runs=long.filter(x=>parse(x.start)<=day&&(parse(x.end)||parse(x.start))>=day);
+        return `<div class="panel"><h3>${esc(fmtLong(day))} <small>${items.length} ${items.length===1?"thing":"things"} to do</small><button class="btn ghost small close" type="button" data-close="${k}">Close</button></h3>
+          ${items.length?`<div class="grid">${items.map(cardHTML).join("")}</div>`:`<p class="note" style="margin-top:8px">${runs.length?"No one-day events on this day, but these are running:":"Nothing scheduled on this day yet."}</p>`}
+          ${runs.length?`<div class="sub-h">${items.length?"Also happening":"Running this day"}</div><div class="grid">${runs.map(cardHTML).join("")}</div>`:""}</div>`;
+      }).join("")+`</div>`;
+    }
+  }
+  $("#cal").innerHTML=html;
+}
+
+function render(){
+  if(!loaded)return;
+  const listMode=state.view!=="cal";
+  $("#calView").hidden=listMode;$("#listView").hidden=!listMode;
+  $("#whenGroup").hidden=state.view!=="list";$("#sortGroup").hidden=!listMode;
+  $("#kindGroup").hidden=state.view==="places";
+  $("#sort").querySelector('option[value="date"]').hidden=state.view==="places";
+  if(listMode)renderList();else renderCal();
+}
+function persistFilters(){try{localStorage.setItem("fcf-filters-v2",JSON.stringify({...state,ages:[...state.ages],areas:[...state.areas]}))}catch(e){}}
+function activePills(){
+  const p=[];
+  if(state.kind!=="all"&&state.view!=="places")p.push(["kind",{event:"Events only",concert:"Concerts only"}[state.kind]]);
+  state.areas.forEach(a=>p.push(["area:"+a,AREAS[a].n]));
+  state.ages.forEach(a=>p.push(["age:"+a,"Ages "+AGE_LABEL[a]]));
+  if(state.view==="list"&&state.when!=="any")p.push(["when",{weekend:"This weekend","7":"Next 7 days","30":"Next 30 days"}[state.when]]);
+  if(state.price!==99999)p.push(["price",state.price===0?"Free only":"Under $"+state.price]);
+  if(state.origin!=="any")p.push(["origin","Within "+state.dist+" mi of "+TOWNS[state.origin].n]);
+  if(state.io!=="any")p.push(["io",state.io==="in"?"Indoor":"Outdoor"]);
+  return p;
+}
+function syncControls(){
+  document.querySelectorAll("#viewSeg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===state.view));
+  document.querySelectorAll("#kindSeg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===state.kind));
+  document.querySelectorAll("#ageSeg button").forEach(b=>b.setAttribute("aria-pressed",state.ages.has(b.dataset.v)));
+  document.querySelectorAll("#areaSeg button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v==="all"?state.areas.size===0:state.areas.has(b.dataset.v)));
+  $("#when").value=state.when;$("#price").value=state.price;$("#origin").value=state.origin;$("#dist").value=state.dist;$("#sort").value=state.sort;$("#indoor").value=state.io;
+  $("#distOut").textContent=state.dist+" mi";
+  $("#distGroup").hidden=state.origin==="any";
+  const pills=activePills();
+  $("#activeBar").innerHTML=pills.length
+    ?pills.map(([k,l])=>`<span class="pill">${esc(l)}<button type="button" data-unset="${esc(k)}" aria-label="Remove ${esc(l)}">×</button></span>`).join("")+`<button type="button" class="clear" id="clearAll">Clear all</button>`
+    :`<span>All of Northeast Florida</span>`;
+  $("#moreLabel").textContent=pills.length?`Filters · ${pills.length}`:"Filters";
+  $("#moreBtn").classList.toggle("on",pills.length>0);
+}
+const update=()=>{syncControls();render();persistFilters()};
+$("#areaSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const v=b.dataset.v;if(v==="all")state.areas.clear();else state.areas.has(v)?state.areas.delete(v):state.areas.add(v);update()});
+$("#activeBar").addEventListener("click",e=>{
+  if(e.target.closest("#clearAll")){const v=state.view;Object.assign(state,fresh(),{view:v});update();return}
+  const b=e.target.closest("[data-unset]");if(!b)return;const k=b.dataset.unset;
+  if(k.startsWith("area:"))state.areas.delete(k.slice(5));else if(k.startsWith("age:"))state.ages.delete(k.slice(4));
+  else if(k==="kind")state.kind="all";else if(k==="when")state.when="any";else if(k==="price")state.price=99999;else if(k==="origin")state.origin="any";else if(k==="io")state.io="any";
+  update();
+});
+function toViewTop(){
+  const prev=$("#browse").previousElementSibling, y=Math.round(prev.getBoundingClientRect().bottom+window.scrollY);
+  if(window.scrollY>y+1){const smooth=!window.matchMedia("(prefers-reduced-motion: reduce)").matches;window.scrollTo({top:y,behavior:smooth?"smooth":"auto"})}
+}
+$("#viewSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;state.view=b.dataset.v;update();toViewTop()});
+$("#kindSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;state.kind=b.dataset.v;update()});
+$("#ageSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const v=b.dataset.v;state.ages.has(v)?state.ages.delete(v):state.ages.add(v);update()});
+$("#when").addEventListener("change",e=>{state.when=e.target.value;update()});
+$("#price").addEventListener("change",e=>{state.price=+e.target.value;update()});
+$("#origin").addEventListener("change",e=>{state.origin=e.target.value;update()});
+$("#dist").addEventListener("input",e=>{state.dist=+e.target.value;update()});
+$("#sort").addEventListener("change",e=>{state.sort=e.target.value;update()});
+$("#indoor").addEventListener("change",e=>{state.io=e.target.value;update()});
+function setPanel(open){$("#more").hidden=!open;$("#moreBtn").setAttribute("aria-expanded",open)}
+$("#moreBtn").addEventListener("click",()=>setPanel($("#more").hidden));
+$("#doneBtn").addEventListener("click",()=>{setPanel(false);$("#browse").scrollIntoView({behavior:"smooth",block:"start"})});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("#more").hidden){setPanel(false);$("#moreBtn").focus()}});
+$("#prevM").addEventListener("click",()=>{calM--;if(calM<0){calM=11;calY--}render()});
+$("#nextM").addEventListener("click",()=>{calM++;if(calM>11){calM=0;calY++}render()});
+$("#todayM").addEventListener("click",()=>{const t=today();calY=t.getFullYear();calM=t.getMonth();render()});
+$("#ribbon").addEventListener("click",e=>{const b=e.target.closest("[data-jump]");if(!b)return;const k=b.dataset.jump;const d=parse(k);const t=today();const target=d<t?iso(t):k;openDays.clear();openDays.add(target);render()});
+
+async function cardActions(e){
+  const s=e.target.closest(".save");
+  if(s){const id=s.dataset.id;saved.has(id)?saved.delete(id):saved.add(id);try{localStorage.setItem("fcf-saved",JSON.stringify([...saved]))}catch(err){}render();return true}
+  return false;
+}
+$("#grid").addEventListener("click",cardActions);
+$("#cal").addEventListener("click",async e=>{
+  if(await cardActions(e))return;
+  const c=e.target.closest("[data-close]");if(c){openDays.delete(c.dataset.close);render();return}
+  const b=e.target.closest("button.day");if(!b)return;
+  const k=b.dataset.day;const was=openDays.has(k);openDays.clear();if(!was)openDays.add(k);render();
+  const again=document.querySelector(`button.day[data-day="${k}"]`);if(again)again.focus({preventScroll:true});
+});
+
+/* ---------- forms ---------- */
+const checked=prefix=>["tot","little","big","teen"].filter(a=>$("#"+prefix+a).checked);
+const offline=()=>!sb;
+$("#subForm").addEventListener("submit",async e=>{
+  e.preventDefault();const em=$("#email").value.trim(), msg=$("#subMsg"), btn=e.target.querySelector("button");
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){msg.className="err";msg.textContent="Enter a full email address, like name@example.com.";return}
+  if(offline()){msg.className="err";msg.textContent="Signups aren't connected yet. Please try again soon.";return}
+  btn.disabled=true;
+  const {error}=await sb.from("subscribers").insert({email:em.toLowerCase(),ages:checked("n_")});
+  btn.disabled=false;
+  if(error&&error.code!=="23505"){msg.className="err";msg.textContent="That didn't go through. Check your connection and try again.";return}
+  msg.className="ok";msg.textContent=error?"You're already on the list. See you Thursday.":"You're on the list for Thursday's edition.";e.target.reset();
+});
+$("#evForm").addEventListener("submit",async e=>{
+  e.preventDefault();const msg=$("#evMsg"), btn=e.target.querySelector('button[type="submit"]');
+  const name=$("#ev_name").value.trim(), date=$("#ev_date").value, venue=$("#ev_venue").value.trim();
+  if(!name||!date||!venue){msg.className="err";msg.textContent="Add the event name, date and venue so families can find it.";return}
+  if(date<iso(today())){msg.className="err";msg.textContent="That date has already passed. Pick an upcoming date.";return}
+  if(offline()){msg.className="err";msg.textContent="Submissions aren't connected yet. Please try again soon.";return}
+  const T=TOWNS[$("#ev_town").value];
+  const pv=$("#ev_price").value;
+  const item={id:slug(name+"-"+date.slice(0,4)),kind:$("#ev_kind").value,name,start:date,end:$("#ev_end").value||"",time:$("#ev_time").value.trim(),
+    venue,county:T.co,area:T.a,lat:T.c[0],lng:T.c[1],price:pv===""?null:Math.max(0,Math.round(+pv)),
+    io:$("#ev_io").value,ages:checked("e_"),desc:$("#ev_desc").value.trim(),url:$("#ev_url").value.trim(),
+    contact:$("#ev_contact").value.trim(),tags:[],note:"Location is approximate ("+T.n+" center); confirm address."};
+  btn.disabled=true;
+  const {error}=await sb.from("submissions").insert({source:"venue",item});
+  btn.disabled=false;
+  if(error){msg.className="err";msg.textContent="That didn't go through. Shorten the description and try again.";return}
+  msg.className="ok";msg.textContent="Thanks. Your event is in the review queue and usually goes live within a day.";e.target.reset();
+});
+
+/* ---------- boot ---------- */
+syncControls();
+$("#calView").hidden=state.view!=="cal";$("#listView").hidden=state.view==="cal";
+const sb=FCF.client();
+async function loadListings(){
+  if(!sb){$("#monthCount").textContent="Listings are being set up. Check back soon.";$("#cal").innerHTML=`<div class="empty" style="padding:40px 16px"><h3>Almost ready</h3><p>This month's events will appear here shortly.</p></div>`;return}
+  const {data,error}=await sb.from("listings").select("*").limit(2000);
+  if(error){$("#monthCount").textContent="Couldn't load listings. Reload the page to try again.";return}
+  LISTINGS=data.map(FCF.fromRow);loaded=true;render();
+}
+loadListings();
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&loaded)loadListings()});
+</script>
+
+</body>
+</html>
