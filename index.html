@@ -218,7 +218,41 @@
 </section>
 
 
-<footer class="wrap">First Coast Families · Jacksonville, Ponte Vedra, Nocatee, World Golf Village, St. Augustine, St. Augustine Beach, Amelia Island, Orange Park and everywhere between.</footer>
+<section class="wrap" id="advertise" style="padding-block:48px 8px">
+  <div class="split">
+    <div>
+      <h2>Reach First Coast families</h2>
+      <p class="note" style="font-size:1rem;max-width:46ch;margin-top:10px">Parents from Fernandina to St. Augustine use this site to plan their weekends. If you run a camp, class, party venue or family business, we can put you in front of them.</p>
+      <ul class="note" style="font-size:.98rem;margin:14px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+        <li><strong style="color:var(--ink)">Featured listings</strong> pinned to the top with a gold star</li>
+        <li><strong style="color:var(--ink)">Sponsorships</strong> on the calendar and around the site</li>
+        <li><strong style="color:var(--ink)">Newsletter spots</strong> in the Thursday Tide Sheet</li>
+      </ul>
+    </div>
+    <form class="stack sticker" id="adForm" novalidate style="padding:18px">
+      <h3 style="font-size:1.25rem">Ask about advertising</h3>
+      <div class="row">
+        <label class="f">Business name<input type="text" id="ad_business" maxlength="150" required></label>
+        <label class="f">Your name<input type="text" id="ad_name" maxlength="120"></label>
+      </div>
+      <div class="row">
+        <label class="f">Email<input type="email" id="ad_email" maxlength="190" required></label>
+        <label class="f">Phone (optional)<input type="text" id="ad_phone" maxlength="40" inputmode="tel"></label>
+      </div>
+      <div class="chk" aria-label="What you're interested in">
+        <label><input type="checkbox" id="ai_featured" value="Featured listing"> Featured listing</label>
+        <label><input type="checkbox" id="ai_sponsor" value="Sponsorship"> Sponsorship</label>
+        <label><input type="checkbox" id="ai_news" value="Newsletter"> Newsletter</label>
+        <label><input type="checkbox" id="ai_unsure" value="Not sure yet"> Not sure yet</label>
+      </div>
+      <label class="f">Tell us a little about your business<textarea id="ad_msg" rows="3" maxlength="1500"></textarea></label>
+      <div><button class="btn" type="submit">Send inquiry</button></div>
+      <p class="note" id="adMsg">We'll reply by email, usually within two business days.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="wrap">First Coast Families · Jacksonville, Ponte Vedra, Nocatee, World Golf Village, St. Augustine, St. Augustine Beach, Amelia Island, Orange Park and everywhere between. · <a href="#advertise">Advertise with us</a></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="js/config.js"></script>
@@ -338,6 +372,7 @@ function placeType(x){
   if(/beach|splash|pier|ocean/.test(t))return "beach";
   return "leaf";
 }
+function adCard(){return `<div class="card sticker ad" role="complementary" aria-label="Advertise with First Coast Families"><span class="label">For local businesses</span><h3>Run a camp, class or birthday venue?</h3><p>Get in front of parents planning their weekends across Northeast Florida.</p><a class="btn ghost" href="#advertise" style="align-self:flex-start">Ask about advertising</a></div>`}
 function cardHTML(x,opts){
   opts=opts||{};
   const isSaved=saved.has(x.id), url=safeUrl(x.url), place=x.kind==="place";
@@ -398,7 +433,8 @@ function renderList(){
   const noun=placesMode?(rows.length===1?" place":" places"):(rows.length===1?" upcoming event":" upcoming events");
   $("#count").textContent=rows.length+noun+(nearName()?" within "+state.dist+" mi of "+nearName():" in "+scopeText());
   if(!rows.length){$("#grid").innerHTML=`<div class="empty"><h3>Nothing matches yet</h3><p>${placesMode?"Try another area, a longer drive or a higher price limit.":"Try a wider date range, another area or a higher price limit."}</p></div>`;return}
-  let html="";rows.forEach(x=>{html+=cardHTML(x,{tile:!placesMode})});
+  let html="";rows.forEach((x,i)=>{if(i===5)html+=adCard();html+=cardHTML(x,{tile:!placesMode})});
+  if(rows.length&&rows.length<=5)html+=adCard();
   $("#grid").innerHTML=html;
 }
 
@@ -559,6 +595,19 @@ $("#subForm").addEventListener("submit",async e=>{
   btn.disabled=false;
   if(error&&error.code!=="23505"){msg.className="err";msg.textContent="That didn't go through. Check your connection and try again.";return}
   msg.className="ok";msg.textContent=error?"You're already on the list. See you Thursday.":"You're on the list for Thursday's edition.";e.target.reset();
+});
+$("#adForm").addEventListener("submit",async e=>{
+  e.preventDefault();const msg=$("#adMsg"), btn=e.target.querySelector('button[type="submit"]');
+  const business=$("#ad_business").value.trim(), email=$("#ad_email").value.trim();
+  if(!business){msg.className="err";msg.textContent="Add your business name so we know who you are.";return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.className="err";msg.textContent="Enter a full email address so we can reply.";return}
+  if(offline()){msg.className="err";msg.textContent="Inquiries aren't connected yet. Please try again soon.";return}
+  const interests=["ai_featured","ai_sponsor","ai_news","ai_unsure"].filter(id=>$("#"+id).checked).map(id=>$("#"+id).value);
+  btn.disabled=true;
+  const {error}=await sb.from("ad_inquiries").insert({business,contact_name:$("#ad_name").value.trim()||null,email:email.toLowerCase(),phone:$("#ad_phone").value.trim()||null,interests,message:$("#ad_msg").value.trim()||null});
+  btn.disabled=false;
+  if(error){msg.className="err";msg.textContent="That didn't go through. Check your connection and try again.";return}
+  msg.className="ok";msg.textContent="Thanks! We'll be in touch by email soon.";e.target.reset();
 });
 $("#evForm").addEventListener("submit",async e=>{
   e.preventDefault();const msg=$("#evMsg"), btn=e.target.querySelector('button[type="submit"]');

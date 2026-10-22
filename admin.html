@@ -66,6 +66,7 @@ code{background:var(--soft);padding:2px 6px;border-radius:6px;overflow-wrap:anyw
       <div class="stat"><b id="stLive">0</b><span class="note">Live listings</span></div>
       <div class="stat"><b id="stUpcoming">0</b><span class="note">Upcoming events</span></div>
       <div class="stat"><b id="stNews">0</b><span class="note">Newsletter signups</span></div>
+      <div class="stat"><b id="stAds">0</b><span class="note">New ad inquiries</span></div>
     </section>
 
     <section class="sticker box" aria-labelledby="qh">
@@ -84,6 +85,11 @@ code{background:var(--soft);padding:2px 6px;border-radius:6px;overflow-wrap:anyw
       </div>
       <input type="text" id="lsearch" placeholder="Search by name" aria-label="Search live listings">
       <div class="live" id="live"></div>
+    </section>
+
+    <section class="sticker box" aria-labelledby="ih">
+      <h2 id="ih">Ad inquiries</h2>
+      <div class="qlist" id="ilist"><p class="note">Loading…</p></div>
     </section>
 
     <section class="sticker box" aria-labelledby="nh">
@@ -116,7 +122,7 @@ async function start(){
   const {data:isAdmin}=await sb.rpc("is_admin");
   if(!isAdmin){$("#adminSql").textContent=`insert into public.admins (user_id) values ('${session.user.id}');`;show("notAdmin");return}
   show("panel");
-  await Promise.all([loadPending(),loadLive(),loadNews()]);
+  await Promise.all([loadPending(),loadLive(),loadNews(),loadInquiries()]);
 }
 
 $("#signinForm").addEventListener("submit",async e=>{
@@ -216,6 +222,30 @@ $("#live").addEventListener("click",async e=>{
   if(u){if(u.dataset.confirm!=="1"){u.dataset.confirm="1";u.textContent="Tap again to unpublish";return}
     u.disabled=true;const {error}=await sb.from("listings").delete().eq("id",u.dataset.unpublish);
     if(!error){LIVE=LIVE.filter(x=>x.id!==u.dataset.unpublish);$("#stLive").textContent=LIVE.length;renderLive()}else u.disabled=false}
+});
+
+/* ---------- ad inquiries ---------- */
+let INQ=[];
+async function loadInquiries(){
+  const {data,error}=await sb.from("ad_inquiries").select("*").order("created_at",{ascending:false}).limit(100);
+  if(error){$("#ilist").innerHTML=`<p class="note">Ad inquiries aren't set up yet. Run supabase/ad_inquiries.sql in the SQL editor.</p>`;return}
+  INQ=data;renderInquiries();
+}
+function renderInquiries(){
+  $("#stAds").textContent=INQ.filter(i=>!i.handled).length;
+  if(!INQ.length){$("#ilist").innerHTML=`<p class="note">No inquiries yet. They arrive from the "Ask about advertising" form on the site.</p>`;return}
+  $("#ilist").innerHTML=INQ.map(i=>`<div class="qitem" style="${i.handled?"opacity:.6":""}"><div>
+      <div class="src">${new Date(i.created_at).toLocaleDateString("en-US",{month:"short",day:"numeric"})}${i.handled?" · handled":""}</div>
+      <h3>${esc(i.business)}</h3>
+      <div class="when">${esc(i.contact_name||"")}${i.contact_name?" · ":""}<a href="mailto:${esc(i.email)}">${esc(i.email)}</a>${i.phone?" · "+esc(i.phone):""}</div>
+      ${(i.interests||[]).length?`<p class="note">Interested in: ${esc(i.interests.join(", "))}</p>`:""}
+      ${i.message?`<p class="note">${esc(i.message)}</p>`:""}
+    </div><div class="qact"><button class="btn ghost small" type="button" data-handled="${i.id}">${i.handled?"Mark new":"Mark handled"}</button></div></div>`).join("");
+}
+$("#ilist").addEventListener("click",async e=>{
+  const b=e.target.closest("[data-handled]");if(!b)return;const i=INQ.find(x=>x.id===b.dataset.handled);if(!i)return;
+  b.disabled=true;const {error}=await sb.from("ad_inquiries").update({handled:!i.handled}).eq("id",i.id);
+  if(!error){i.handled=!i.handled;renderInquiries()}else b.disabled=false;
 });
 
 /* ---------- newsletter ---------- */
