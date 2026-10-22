@@ -139,7 +139,7 @@ function renderPending(){
   if(!PENDING.length){$("#qlist").innerHTML=`<p class="note">Nothing waiting. Tap Import new finds after the sweep runs on the 1st and 15th.</p>`;return}
   $("#qlist").innerHTML=PENDING.map(s=>{const x=s.item||{},url=safeUrl(x.url);const past=x.start&&(x.end||x.start)<todayIso();
     return `<div class="qitem"><div>
-      <div class="src">${s.source==="sweep"?"Sweep":"Venue submission"} · ${esc(x.kind||"event")} · ${esc(x.county||"")}</div>
+      <div class="src">${x.closure?"Possible closure · ":""}${s.source==="sweep"?"Sweep":"Venue submission"} · ${esc(x.kind||"event")} · ${esc(x.county||"")}</div>
       <h3>${esc(x.name)}</h3>
       <div class="when">${esc(whenText(x))}${x.venue?" · "+esc(x.venue):""}</div>
       <p class="note">${esc(x.desc||"")} ${x.price===0?"Free.":typeof x.price==="number"?"$"+x.price+".":""} ${esc(x.ageNote||(x.ages||[]).map(a=>AGE[a]).join(", "))}</p>
@@ -148,7 +148,7 @@ function renderPending(){
       ${x.contact?`<p class="note">Contact: ${esc(x.contact)}</p>`:""}
       ${url?`<a href="${esc(url)}" target="_blank" rel="noopener">Source</a>`:""}
     </div><div class="qact">
-      <button class="btn small" type="button" data-approve="${s.id}">Approve</button>
+      <button class="btn small" type="button" data-approve="${s.id}">${x.closure?"Unpublish listing":"Approve"}</button>
       <button class="btn warn small" type="button" data-reject="${s.id}">Reject</button>
     </div></div>`}).join("");
 }
@@ -156,7 +156,10 @@ $("#qlist").addEventListener("click",async e=>{
   const b=e.target.closest("[data-approve],[data-reject]");if(!b)return;
   const id=b.dataset.approve||b.dataset.reject, approve=!!b.dataset.approve, s=PENDING.find(p=>p.id===id);if(!s)return;
   b.closest(".qact").querySelectorAll("button").forEach(x=>x.disabled=true);
-  if(approve){
+  if(approve&&s.item&&s.item.closure&&s.item.listingId){
+    const {error}=await sb.from("listings").delete().eq("id",s.item.listingId);
+    if(error){alertRow(b,"Couldn't unpublish: "+error.message);return}
+  }else if(approve){
     const x=s.item||{}, lid=s.sweep_key||x.id||slug(x.name);
     const {error}=await sb.from("listings").upsert(FCF.toRow({...x,source:s.source},lid));
     if(error){alertRow(b,"Couldn't publish: "+error.message);return}
