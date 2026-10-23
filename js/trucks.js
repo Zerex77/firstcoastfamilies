@@ -17,7 +17,7 @@
       const { data } = await sb.from("truck_stops").select("*").gte("date", iso(today())).limit(500);
       if (data) T.stops = T.stops.concat(data.map(r => ({
         id: "o-" + r.id, title: r.truck, cuisine: r.cuisine, date: r.date, time: r.time_text,
-        venue: r.venue || r.address, area: r.area, lat: r.lat, lng: r.lng, url: r.url, desc: r.description, owner: true
+        venue: r.venue || r.address, address: r.address, area: r.area, lat: r.lat, lng: r.lng, url: r.url, desc: r.description, owner: true
       })));
     }
     T.loaded = true;
@@ -56,9 +56,11 @@
     if (diff === 1) return "Tomorrow";
     return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
   };
-  const directions = x => typeof x.lat === "number"
-    ? "https://www.google.com/maps/dir/?api=1&destination=" + x.lat + "," + x.lng
-    : "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(x.venue || "");
+  const directions = x => x.address
+    ? "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(x.address)
+    : typeof x.lat === "number"
+      ? "https://www.google.com/maps/dir/?api=1&destination=" + x.lat + "," + x.lng
+      : "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(x.venue || "");
 
   function collect() {
     const [a, b] = range();
