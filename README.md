@@ -12,8 +12,11 @@ Live at https://firstcoastfamilies.com (GitHub Pages + Supabase).
 | `css/site.css` | Shared styles (pastel-blue design, light and dark) |
 | `js/config.js` | Your Supabase URL and anon key |
 | `js/data.js` | Database client and row mapping shared by both pages |
+| `js/trucks.js` | Food truck tab: map with truck icons, stops list, regular spots, owner form |
+| `data/trucks.json` | Food truck spots and scheduled stops, refreshed weekly by a scheduled task |
 | `data/sweep.json` | New events found by the twice-a-month scheduled task; imported from the admin page |
 | `supabase/schema.sql` | Tables, security rules and nightly cleanup |
+| `supabase/trucks.sql` | Table for stops posted by truck owners, plus nightly cleanup |
 | `supabase/seed.sql` | The 77 listings moved over from the preview |
 | `CNAME` | Tells GitHub Pages to serve firstcoastfamilies.com |
 
@@ -37,3 +40,9 @@ Live at https://firstcoastfamilies.com (GitHub Pages + Supabase).
 - On `/admin.html`, tap **Import new finds**, then Approve or Reject each one.
 - Venue submissions from the public form land in the same queue.
 - Past events are removed automatically every morning by the database itself.
+
+## Food trucks
+
+- Every Thursday morning a scheduled task checks public sources (tourism and city calendars, markets, food truck parks, rallies, truck websites) and rewrites `data/trucks.json`. It publishes straight to the site, no review step.
+- Most trucks only post on Facebook and Instagram, which can't be read automatically, so truck owners can post their own stops with the "Run a food truck?" form. Those land in the admin review queue; approving one looks up the address and pins it on the map.
+- The map uses OpenStreetMap tiles, which are free for light use. If traffic grows a lot, switch to a hosted tile plan (for example MapTiler or Stadia Maps) in `js/trucks.js`.

@@ -1,0 +1,71 @@
+{
+  "updated": "2026-10-23",
+  "spots": [
+    {
+      "id": "marina-munch",
+      "name": "Marina Munch Food Truck Park",
+      "type": "park",
+      "area": "sa",
+      "county": "St. Johns",
+      "venue": "English Landing Marina, 509 S. Ponce de Leon Blvd, St. Augustine",
+      "lat": 29.8852,
+      "lng": -81.3195,
+      "schedule": { "daily": true },
+      "scheduleText": "Open every day",
+      "hoursByDay": { "mon": "7 am–6 pm", "tue": "7 am–6 pm", "wed": "7 am–6 pm", "thu": "7 am–8 pm", "fri": "7 am–8 pm", "sat": "7 am–8 pm", "sun": "7 am–6 pm" },
+      "trucksText": "Up to 5 trucks: a few regulars plus rotating guests",
+      "desc": "St. Augustine's only dedicated food truck park, on the marina. Pet and family friendly, with a small covered seating area.",
+      "tips": "Seating is limited at peak times. The lineup changes, so check their Facebook page if you're after a specific truck.",
+      "url": "https://visitstaugustine.com/restaurant/marina-munch"
+    },
+    {
+      "id": "riverside-arts-market",
+      "name": "Riverside Arts Market",
+      "type": "market",
+      "area": "jax",
+      "county": "Duval",
+      "venue": "Under the Fuller Warren Bridge, 715 Riverside Ave, Jacksonville",
+      "lat": 30.3176,
+      "lng": -81.6800,
+      "schedule": { "days": ["sat"] },
+      "scheduleText": "Saturdays",
+      "hours": "10 am–3 pm",
+      "until": "2026-12-26",
+      "trucksText": "Food trucks and local food vendors",
+      "desc": "The big Saturday market by the river, with food trucks and vendors alongside art, produce and live music. Covered by the bridge, so it runs rain or shine.",
+      "url": "https://dtjax.com/poi/riverside-arts-market/"
+    },
+    {
+      "id": "spring-park-food-truck-friday",
+      "name": "Food Truck Friday at Spring Park",
+      "type": "rally",
+      "area": "clay",
+      "county": "Clay",
+      "venue": "Spring Park, 200 Spring St, Green Cove Springs",
+      "lat": 29.9921,
+      "lng": -81.6779,
+      "schedule": { "nth": 1, "day": "fri" },
+      "scheduleText": "First Friday of each month",
+      "hours": "5–9:30 pm",
+      "trucksText": "Lots of food trucks and vendors",
+      "desc": "Green Cove Springs' monthly food truck night on the riverfront park, with room for kids to run around and the spring-fed pool next door.",
+      "url": "https://www.eventeny.com/events/food-truck-friday-green-cove-springs-october-2nd-31914/"
+    }
+  ],
+  "stops": [
+    {
+      "id": "904-pop-up-2026-11-01",
+      "title": "904 Pop Up",
+      "date": "2026-11-01",
+      "time": "11 am–7 pm",
+      "area": "beaches",
+      "county": "Duval",
+      "venue": "SeaWalk Pavilion, Jacksonville Beach",
+      "lat": 30.2908,
+      "lng": -81.3880,
+      "trucksText": "About 15 food trucks",
+      "desc": "An all-ages outdoor market on the oceanfront with about 15 food trucks and 200+ local makers and artists.",
+      "url": "https://904popup.com"
+    }
+  ]
+}

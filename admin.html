@@ -139,15 +139,15 @@ async function loadPending(){
   if(error){$("#qlist").innerHTML=`<p class="err">Couldn't load the queue: ${esc(error.message)}</p>`;return}
   PENDING=data;renderPending();
 }
-function whenText(x){if(!x.start)return x.hours||"";let t=x.start+(x.end&&x.end!==x.start?" → "+x.end:"");if(x.time)t+=" · "+x.time;return t}
+function whenText(x){if(x.kind==="truck")return (x.date||"")+(x.time?" · "+x.time:"");if(!x.start)return x.hours||"";let t=x.start+(x.end&&x.end!==x.start?" → "+x.end:"");if(x.time)t+=" · "+x.time;return t}
 function renderPending(){
   $("#stPending").textContent=PENDING.length;
   if(!PENDING.length){$("#qlist").innerHTML=`<p class="note">Nothing waiting. Tap Import new finds after the sweep runs on the 1st and 15th.</p>`;return}
-  $("#qlist").innerHTML=PENDING.map(s=>{const x=s.item||{},url=safeUrl(x.url);const past=x.start&&(x.end||x.start)<todayIso();
+  $("#qlist").innerHTML=PENDING.map(s=>{const x=s.item||{},url=safeUrl(x.url);const d0=x.kind==="truck"?x.date:x.start;const past=d0&&(x.kind==="truck"?x.date:(x.end||x.start))<todayIso();
     return `<div class="qitem"><div>
-      <div class="src">${x.closure?"Possible closure · ":""}${s.source==="sweep"?"Sweep":"Venue submission"} · ${esc(x.kind||"event")} · ${esc(x.county||"")}</div>
+      <div class="src">${x.closure?"Possible closure · ":""}${x.kind==="truck"?"Food truck stop":(s.source==="sweep"?"Sweep":"Venue submission")} · ${esc(x.kind==="truck"?(x.cuisine||"truck"):(x.kind||"event"))} · ${esc(x.county||"")}</div>
       <h3>${esc(x.name)}</h3>
-      <div class="when">${esc(whenText(x))}${x.venue?" · "+esc(x.venue):""}</div>
+      <div class="when">${esc(whenText(x))}${x.venue?" · "+esc(x.venue):""}</div>${x.address?`<p class="note">${esc(x.address)}</p>`:""}
       <p class="note">${esc(x.desc||"")} ${x.price===0?"Free.":typeof x.price==="number"?"$"+x.price+".":""} ${esc(x.ageNote||(x.ages||[]).map(a=>AGE[a]).join(", "))}</p>
       ${past?`<div class="why">This date has already passed.</div>`:""}
       ${x.note?`<div class="why">Check: ${esc(x.note)}</div>`:""}
@@ -165,6 +165,15 @@ $("#qlist").addEventListener("click",async e=>{
   if(approve&&s.item&&s.item.closure&&s.item.listingId){
     const {error}=await sb.from("listings").delete().eq("id",s.item.listingId);
     if(error){alertRow(b,"Couldn't unpublish: "+error.message);return}
+  }else if(approve&&s.item&&s.item.kind==="truck"){
+    const x=s.item;let lat=x.lat,lng=x.lng;
+    try{
+      const r=await fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q="+encodeURIComponent(x.address+", FL"),{headers:{"Accept":"application/json"}});
+      const g=r.ok?await r.json():[];
+      if(g[0]&&Math.abs(+g[0].lat-30.2)<1.2&&Math.abs(+g[0].lon+81.5)<1.2){lat=+g[0].lat;lng=+g[0].lon}
+    }catch(err){}
+    const {error}=await sb.from("truck_stops").insert({truck:x.truck,cuisine:x.cuisine||null,date:x.date,time_text:x.time||null,venue:x.venue||null,address:x.address||null,area:x.area||null,lat,lng,url:/^https?:\/\//i.test(x.url||"")?x.url:null,description:x.desc||null});
+    if(error){alertRow(b,"Couldn't publish: "+error.message+(/truck_stops/.test(error.message)?" (run supabase/trucks.sql first)":""));return}
   }else if(approve){
     const x=s.item||{}, lid=s.sweep_key||x.id||slug(x.name);
     const {error}=await sb.from("listings").upsert(FCF.toRow({...x,source:s.source},lid));

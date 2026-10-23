@@ -14,6 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
@@ -56,6 +57,7 @@
       <button type="button" data-v="cal" aria-pressed="true">Calendar</button>
       <button type="button" data-v="list" aria-pressed="false">Events</button>
       <button type="button" data-v="places" aria-pressed="false">Places</button>
+      <button type="button" data-v="trucks" aria-pressed="false">Trucks</button>
     </div>
     <button type="button" class="fbtn" id="moreBtn" aria-expanded="false" aria-controls="more"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 3h14M4 8h8M6.5 13h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span id="moreLabel">Filters</span></button>
     <div class="activebar" id="activeBar" aria-live="polite"></div>
@@ -69,7 +71,7 @@
           <button type="button" data-v="concert" aria-pressed="false">Concerts</button>
         </div>
       </div>
-      <div class="fgroup"><span class="lab">Kids' ages</span>
+      <div class="fgroup" id="ageGroup"><span class="lab">Kids' ages</span>
         <div class="seg" id="ageSeg">
           <button type="button" data-v="tot" aria-pressed="false">0–3</button>
           <button type="button" data-v="little" aria-pressed="false">4–7</button>
@@ -89,7 +91,7 @@
             <option value="30">Next 30 days</option>
           </select>
         </div>
-        <div class="fgroup"><label for="price">Price per kid</label>
+        <div class="fgroup" id="priceGroup"><label for="price">Price per kid</label>
           <select id="price">
             <option value="99999">Any price</option>
             <option value="0">Free only</option>
@@ -97,7 +99,7 @@
             <option value="30">Under $30</option>
           </select>
         </div>
-        <div class="fgroup"><label for="indoor">Setting</label>
+        <div class="fgroup" id="ioGroup"><label for="indoor">Setting</label>
           <select id="indoor">
             <option value="any">Indoor or outdoor</option>
             <option value="in">Indoor (rain plan)</option>
@@ -150,6 +152,50 @@
       <p class="note" id="listNote">New events are added twice a month. Confirm times with the host before you go.</p>
     </div>
     <div class="grid" id="grid"></div>
+  </section>
+  <section id="trucksView" hidden aria-label="Food trucks">
+    <div class="resbar">
+      <div><h2>Food trucks</h2><p class="note" id="truckCount">Finding food trucks…</p></div>
+      <div class="seg" id="truckWin" aria-label="When">
+        <button type="button" data-w="today" aria-pressed="false">Today</button>
+        <button type="button" data-w="weekend" aria-pressed="false">This weekend</button>
+        <button type="button" data-w="7" aria-pressed="true">This week</button>
+      </div>
+    </div>
+    <div class="sticker truckmap" id="truckMap" role="region" aria-label="Map of food truck stops"></div>
+    <div class="legend tlegend"><span><i class="dot" style="background:#FF9F80"></i> Today</span><span><i class="dot" style="background:#4FA3DB"></i> Coming up</span><span><i class="dot" style="background:#4CC38A"></i> Regular spot</span></div>
+    <p class="note" id="truckUpdated"></p>
+    <div id="truckStops"></div>
+    <div class="sectionhead" style="margin-top:28px"><h2>Regular food truck spots</h2></div>
+    <div class="grid" id="truckSpots" style="margin-top:14px"></div>
+
+    <div class="split truckown">
+      <div>
+        <h2>Run a food truck?</h2>
+        <p class="note" style="font-size:1rem;max-width:44ch;margin-top:10px">Post where you'll be and families nearby will see you on the map. It's free. Stops show up once they're approved, usually the same day.</p>
+      </div>
+      <form class="stack sticker" id="truckForm" novalidate style="padding:18px">
+        <div class="row">
+          <label class="f">Truck name<input type="text" id="tf_truck" maxlength="120" required></label>
+          <label class="f">Food<input type="text" id="tf_cuisine" maxlength="70" placeholder="Tacos, BBQ, ice cream…"></label>
+        </div>
+        <div class="row">
+          <label class="f">Date<input type="date" id="tf_date" required></label>
+          <label class="f">Hours<input type="text" id="tf_time" maxlength="50" placeholder="11 am–2 pm" required></label>
+        </div>
+        <div class="row">
+          <label class="f">Where you'll park<input type="text" id="tf_venue" maxlength="150" placeholder="Brewery, park, business…" required></label>
+          <label class="f">Nearest community<select id="tf_town"></select></label>
+        </div>
+        <label class="f">Street address<input type="text" id="tf_address" maxlength="190" placeholder="123 Main St, Jacksonville" required></label>
+        <div class="row">
+          <label class="f">Website, Facebook or Instagram<input type="url" id="tf_url" maxlength="290" placeholder="https://"></label>
+          <label class="f">Your email (not shown)<input type="email" id="tf_contact" maxlength="190"></label>
+        </div>
+        <div><button class="btn" type="submit">Post my stop</button></div>
+        <p class="note" id="tfMsg"></p>
+      </form>
+    </div>
   </section>
 </main>
 
@@ -296,7 +342,7 @@ const saved=new Set();
 try{(JSON.parse(localStorage.getItem("fcf-saved")||"[]")).forEach(n=>saved.add(n))}catch(e){}
 try{const f=JSON.parse(localStorage.getItem("fcf-filters-v2")||"null");if(f){Object.assign(state,f,{ages:new Set(f.ages||[]),areas:new Set((f.areas||[]).filter(a=>AREAS[a]))})}}catch(e){}
 if(state.origin!=="any"&&!TOWNS[state.origin])state.origin="any";
-if(!["cal","list","places"].includes(state.view))state.view="cal";
+if(!["cal","list","places","trucks"].includes(state.view))state.view="cal";
 if(!["all","event","concert"].includes(state.kind))state.kind="all";
 const nearName=()=>state.origin==="any"?null:TOWNS[state.origin].n;
 const scopeText=()=>state.areas.size?[...state.areas].map(a=>AREAS[a].n).join(", "):"all of Northeast Florida";
@@ -503,17 +549,25 @@ function renderCal(){
 }
 
 function render(){
+  const trucks=state.view==="trucks";
+  $("#trucksView").hidden=!trucks;
+  ["kindGroup","ageGroup","priceGroup","ioGroup"].forEach(id=>$("#"+id).hidden=trucks||(id==="kindGroup"&&state.view==="places"));
+  if(trucks){$("#calView").hidden=true;$("#listView").hidden=true;$("#whenGroup").hidden=true;$("#sortGroup").hidden=true;if(window.renderTrucks)renderTrucks();return}
   if(!loaded)return;
   const listMode=state.view!=="cal";
   $("#calView").hidden=listMode;$("#listView").hidden=!listMode;
   $("#whenGroup").hidden=state.view!=="list";$("#sortGroup").hidden=!listMode;
-  $("#kindGroup").hidden=state.view==="places";
   $("#sort").querySelector('option[value="date"]').hidden=state.view==="places";
   if(listMode)renderList();else renderCal();
 }
 function persistFilters(){try{localStorage.setItem("fcf-filters-v2",JSON.stringify({...state,ages:[...state.ages],areas:[...state.areas]}))}catch(e){}}
 function activePills(){
   const p=[];
+  if(state.view==="trucks"){
+    state.areas.forEach(a=>p.push(["area:"+a,AREAS[a].n]));
+    if(state.origin!=="any")p.push(["origin","Within "+state.dist+" mi of "+TOWNS[state.origin].n]);
+    return p;
+  }
   if(state.kind!=="all"&&state.view!=="places")p.push(["kind",{event:"Events only",concert:"Concerts only"}[state.kind]]);
   state.areas.forEach(a=>p.push(["area:"+a,AREAS[a].n]));
   state.ages.forEach(a=>p.push(["age:"+a,"Ages "+AGE_LABEL[a]]));
@@ -630,7 +684,7 @@ $("#evForm").addEventListener("submit",async e=>{
 
 /* ---------- boot ---------- */
 syncControls();
-$("#calView").hidden=state.view!=="cal";$("#listView").hidden=state.view==="cal";
+$("#calView").hidden=state.view!=="cal";$("#listView").hidden=state.view==="cal"||state.view==="trucks";$("#trucksView").hidden=state.view!=="trucks";
 const sb=FCF.client();
 async function loadListings(){
   if(!sb){$("#monthCount").textContent="Listings are being set up. Check back soon.";$("#cal").innerHTML=`<div class="empty" style="padding:40px 16px"><h3>Almost ready</h3><p>This month's events will appear here shortly.</p></div>`;return}
@@ -641,6 +695,8 @@ async function loadListings(){
 loadListings();
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&loaded)loadListings()});
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="js/trucks.js"></script>
 
 </body>
 </html>
