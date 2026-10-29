@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-23",
+  "updated": "2026-10-29",
   "spots": [
     {
       "id": "marina-munch",
@@ -70,66 +70,6 @@
     }
   ],
   "stops": [
-    {
-      "id": "boooval-trunk-or-treat-2026-10-23",
-      "title": "BOOOval Trunk or Treat",
-      "date": "2026-10-23",
-      "time": "5–8:30 pm",
-      "area": "jax",
-      "county": "Duval",
-      "venue": "Lot Z by VyStar Arena, Downtown Jacksonville",
-      "address": "300 A. Philip Randolph Blvd, Jacksonville, FL",
-      "lat": 30.3255,
-      "lng": -81.643,
-      "trucksText": "Food trucks",
-      "desc": "Free trunk-or-treat in the stadium lots with food trucks, games and prize giveaways.",
-      "url": "https://www.actionnewsjax.com/news/local/duval-county/halloween-trunk-or-treat-events-planned-across-northeast-florida-southeast-georgia/CDWIB74M3VHP3AUWOJRM7LQ2P4/"
-    },
-    {
-      "id": "harvest-moon-hullaballo-2026-10-23",
-      "title": "Harvest Moon Hullaballo",
-      "date": "2026-10-23",
-      "time": "5–9 pm",
-      "area": "sa",
-      "county": "St. Johns",
-      "venue": "Palencia Market Street, St. Augustine (Palencia)",
-      "address": "625 Palencia Club Dr, St. Augustine, FL",
-      "lat": 30.0047,
-      "lng": -81.3853,
-      "trucksText": "Food trucks",
-      "desc": "Free evening fall carnival with food trucks, a hayride, petting zoo, rock wall and face painting.",
-      "url": "https://www.visitstaugustine.com/event/harvest-moon-hullaballo-palencia"
-    },
-    {
-      "id": "italian-festival-vfw-2391-2026-10-24",
-      "title": "1st Annual Italian Festival",
-      "date": "2026-10-24",
-      "time": "11 am–6 pm",
-      "area": "sa",
-      "county": "St. Johns",
-      "venue": "VFW Post 2391, St. Augustine",
-      "address": "6184 US-1 S, St. Augustine, FL",
-      "lat": 29.8175,
-      "lng": -81.3215,
-      "trucksText": "Food trucks",
-      "desc": "Free family festival with food trucks, live music and local vendors.",
-      "url": "https://neighborhoodconciergewgv.com/wp/calendar-events/"
-    },
-    {
-      "id": "hodges-fall-festival-2026-10-24",
-      "title": "Hodges Fall Festival",
-      "date": "2026-10-24",
-      "time": "4–6 pm",
-      "area": "jax",
-      "county": "Duval",
-      "venue": "Hodges Boulevard Presbyterian Church, Jacksonville",
-      "address": "4140 Hodges Blvd, Jacksonville, FL",
-      "lat": 30.27,
-      "lng": -81.4555,
-      "trucksText": "Food trucks",
-      "desc": "Free church fall festival with food trucks, trunk-or-treating, games and face painting.",
-      "url": "https://www.news4jax.com/news/local/2026/10/22/jacksonville-area-events-to-check-out-oct-23-25-2026/"
-    },
     {
       "id": "kernan-blvd-baptist-trunk-or-treat-2026-10-30",
       "title": "Trunk or Treat at Kernan Blvd Baptist",
