@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29",
+  "updated": "2026-11-05",
   "spots": [
     {
       "id": "marina-munch",
@@ -70,51 +70,6 @@
     }
   ],
   "stops": [
-    {
-      "id": "kernan-blvd-baptist-trunk-or-treat-2026-10-30",
-      "title": "Trunk or Treat at Kernan Blvd Baptist",
-      "date": "2026-10-30",
-      "time": "6–9 pm",
-      "area": "jax",
-      "county": "Duval",
-      "venue": "Kernan Boulevard Baptist Church, Jacksonville",
-      "address": "4000 Kernan Blvd S, Jacksonville, FL",
-      "lat": 30.2795,
-      "lng": -81.5085,
-      "trucksText": "Food trucks",
-      "desc": "Church family night with food trucks, candy, bounce houses and hayrides.",
-      "url": "https://allevents.in/jacksonville-beach/food-trucks"
-    },
-    {
-      "id": "pharoahs-cruise-in-trunk-or-treat-2026-10-31",
-      "title": "Cruise-In & Trunk or Treat",
-      "date": "2026-10-31",
-      "time": "9 am–noon",
-      "area": "wgv",
-      "county": "St. Johns",
-      "venue": "Trout Creek Memorial Park, St. Johns",
-      "address": "6550 State Road 13 N, St. Augustine, FL",
-      "lat": 29.9932,
-      "lng": -81.6239,
-      "trucksText": "A food truck",
-      "desc": "Morning classic-car cruise-in and trunk-or-treat in the park, with a food truck and vendors.",
-      "url": "https://neighborhoodconciergewgv.com/wp/calendar-events/"
-    },
-    {
-      "id": "904-pop-up-2026-11-01",
-      "title": "904 Pop Up: Jaguars vs. Colts Watch Party",
-      "date": "2026-11-01",
-      "time": "11 am–5 pm",
-      "area": "beaches",
-      "county": "Duval",
-      "venue": "SeaWalk Pavilion, Jacksonville Beach",
-      "address": "75 1st St N, Jacksonville Beach, FL",
-      "lat": 30.2908,
-      "lng": -81.388,
-      "trucksText": "About 15 food trucks",
-      "desc": "Free outdoor market with about 15 food trucks and 200 local vendors, plus the Jaguars game on a 20-foot screen.",
-      "url": "https://allevents.in/jacksonville-beach/food-trucks"
-    },
     {
       "id": "friendship-fountain-saturday-sounds-2026-11-07",
       "title": "Friendship Fountain Saturday Sounds",
