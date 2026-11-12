@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-12",
   "spots": [
     {
       "id": "marina-munch",
@@ -70,21 +70,6 @@
     }
   ],
   "stops": [
-    {
-      "id": "friendship-fountain-saturday-sounds-2026-11-07",
-      "title": "Friendship Fountain Saturday Sounds",
-      "date": "2026-11-07",
-      "time": "6–9 pm",
-      "area": "jax",
-      "county": "Duval",
-      "venue": "Friendship Fountain, Southbank",
-      "address": "1015 Museum Cir, Jacksonville, FL",
-      "lat": 30.3178,
-      "lng": -81.6597,
-      "trucksText": "Food trucks",
-      "desc": "Free riverfront evening with local bands, food trucks and lawn games while the fountain lights up.",
-      "url": "https://www.facebook.com/jaxparkscoj/events"
-    },
     {
       "id": "jax-parks-movie-night-2026-11-20",
       "title": "Jax Parks Movie Night",
